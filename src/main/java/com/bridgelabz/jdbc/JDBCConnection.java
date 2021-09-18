@@ -4,7 +4,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JDBCConnection {
-    private String url = "jdbc:mysql://localhost:3306/payroll_system?useSSL=false";
+    private String url = "jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
     private String username = "root";
     private String password = "ruchi";
     Connection con;
