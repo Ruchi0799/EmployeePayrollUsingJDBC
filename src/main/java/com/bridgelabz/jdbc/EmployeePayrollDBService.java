@@ -97,4 +97,27 @@ public class EmployeePayrollDBService {
 
         return null;
     }
+
+    public ResultSet SumUsingGroupby(String value) {
+        String sql=String.format("Select gender,sum(%s) from employee_payroll group by gender;",value);
+        try(Connection connection=this.getConnection()) {
+            Statement statement=connection.createStatement();
+            ResultSet resultSet=statement.executeQuery(sql);
+            while (resultSet.next())
+            {
+                System.out.println(
+                        resultSet.getString(1)+" "+
+                               resultSet.getString(2)
+
+                );
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
 }

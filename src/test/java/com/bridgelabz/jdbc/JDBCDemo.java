@@ -37,4 +37,12 @@ public class JDBCDemo {
         ResultSet resultSet=employeePayrollDBService.retrieveAccordingToDate("2018-01-01");
         
     }
+
+    @Test
+    public void abilityToFindSumOfSalary_ByGroupingAccordingToGender() throws SQLException {
+        EmployeePayrollDBService employeePayrollDBService=new EmployeePayrollDBService();
+
+        ResultSet resultSet=employeePayrollDBService.SumUsingGroupby("salary");
+
+    }
 }
