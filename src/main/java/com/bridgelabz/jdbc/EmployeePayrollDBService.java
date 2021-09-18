@@ -71,4 +71,30 @@ public class EmployeePayrollDBService {
 
         return 0;
     }
+
+
+    public ResultSet retrieveAccordingToDate(String s) {
+
+        String sql=String.format("select * from employee_payroll where start BETWEEN CAST('%s' AS DATE) AND DATE(NOW());",s);
+        try(Connection connection=this.getConnection()) {
+            Statement statement=connection.createStatement();
+            ResultSet resultSet=statement.executeQuery(sql);
+            while (resultSet.next())
+            {
+                System.out.println(
+                        resultSet.getString(1)+" "+
+                                resultSet.getString(2)+ " "+
+                                resultSet.getString(3)+" "+
+                                resultSet.getString(4)
+
+                );
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

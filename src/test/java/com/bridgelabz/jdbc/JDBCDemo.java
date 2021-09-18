@@ -3,6 +3,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 
 public class JDBCDemo {
@@ -27,5 +28,13 @@ public class JDBCDemo {
         employeePayrollService.updateEmployeeSalary("Terisa",4000000.00);
       // boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Terisa");
         //Assert.assertTrue(result);
+    }
+
+    @Test
+    public void givenStartDate_RetriveAllTheEmployeesWhoJoined_InThatDateRange() throws SQLException {
+        EmployeePayrollDBService employeePayrollDBService=new EmployeePayrollDBService();
+
+        ResultSet resultSet=employeePayrollDBService.retrieveAccordingToDate("2018-01-01");
+        
     }
 }
