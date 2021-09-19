@@ -138,6 +138,49 @@ public class EmployeePayrollDBService {
         return 0;
     }
 
+
+    public void addEmployeeToPayroll(String name, char gender, double salary, String date) throws SQLException {
+        int employeeID = -1;
+        Connection connection = null;
+        connection = this.getConnection();
+        Statement statement = connection.createStatement();
+        try {
+           // System.out.println("inside try");
+            String sql = String.format("insert into employee_payroll(name,gender,salary,start) values" +"('%s','%s',%2f,CAST('%s' AS DATE))", name, gender, salary, date);
+            int rowAffected = statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+          //  System.out.println(rowAffected);
+            if (rowAffected == 1) {
+
+                System.out.println(employeeID);
+                ResultSet resultSet = statement.getGeneratedKeys();
+                if (resultSet.next()) employeeID = resultSet.getInt(1);
+                System.out.println(employeeID);
+          }
+            printEntries();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        try {
+            //System.out.println("inside try");
+            //System.out.println(employeeID);
+            double deductions = salary * 0.2;
+            double taxablePay = salary - deductions;
+            double tax = taxablePay * 0.1;
+            double netPay = salary - tax;
+           // String sql = String.format("INSERT INTO payroll_details(employee_id,basic_pay,deductions,taxable_pay,tax,net_pay) values (LAST_INSERT_ID(),'%s','%s','%s','%s','%s')",salary,deductions, taxablePay, tax, netPay);
+           String sql = String.format("INSERT INTO payroll_details" +
+                   "(employee_id,basic_pay,deductions,taxable_pay,tax,net_pay) values"+"(%s,%s,%s,%s,%s,%s)",employeeID, salary,deductions, taxablePay, tax, netPay);
+            int rowAffected = statement.executeUpdate(sql);
+        }
+        catch (SQLException e){
+            System.out.println("inside catch");
+            e.printStackTrace();
+        }
+
+
+
+    }
+
     public void printEntries(){
         String sql="SELECT * FROM employee_payroll;";
         try {
