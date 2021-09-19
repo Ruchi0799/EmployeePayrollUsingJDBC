@@ -120,4 +120,47 @@ public class EmployeePayrollDBService {
         return null;
 
     }
+
+    public int addNewEmployee(String name, char gender, double salary, String date) {
+        String sql = String.format("insert into employee_payroll(name,gender,salary,start) values ('%s','%s',%2f,CAST('%s' AS DATE));", name, gender, salary, date);
+        try (Connection connection = this.getConnection()) {
+            Statement statement = connection.createStatement();
+            int result = statement.executeUpdate(sql);
+
+            printEntries();
+            return result;
+      }
+       catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public void printEntries(){
+        String sql="SELECT * FROM employee_payroll;";
+        try {
+            Connection connection=this.getConnection();
+            Statement statement=connection.createStatement();
+            ResultSet resultSet=statement.executeQuery(sql);
+            while (resultSet.next()){
+                System.out.println(
+                        resultSet.getString(1)+" "+
+                                resultSet.getString(2)+" "+
+                                resultSet.getString(3)+" "+
+                                resultSet.getString(4)+" "+
+                                resultSet.getString(5));
+            }
+
+            }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }
+

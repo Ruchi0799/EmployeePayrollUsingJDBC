@@ -45,4 +45,10 @@ public class JDBCDemo {
         ResultSet resultSet=employeePayrollDBService.SumUsingGroupby("salary");
 
     }
+
+    @Test
+    public void abilityToAddNewEmployee() {
+        EmployeePayrollDBService employeePayrollDBService=new EmployeePayrollDBService();
+        employeePayrollDBService.addNewEmployee("Sagarika",'F',500000.00,"2021-09-09");
+    }
 }
