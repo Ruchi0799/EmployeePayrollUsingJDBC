@@ -143,6 +143,7 @@ public class EmployeePayrollDBService {
         int employeeID = -1;
         Connection connection = null;
         connection = this.getConnection();
+        connection.setAutoCommit(false);
         Statement statement = connection.createStatement();
         try {
            // System.out.println("inside try");
@@ -156,9 +157,10 @@ public class EmployeePayrollDBService {
                 if (resultSet.next()) employeeID = resultSet.getInt(1);
                 System.out.println(employeeID);
           }
-            printEntries();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            connection.rollback();
         }
         try {
             //System.out.println("inside try");
@@ -175,9 +177,26 @@ public class EmployeePayrollDBService {
         catch (SQLException e){
             System.out.println("inside catch");
             e.printStackTrace();
+            connection.rollback();
         }
-
-
+        try {
+           connection.commit();
+            printEntries();
+        }
+        catch (SQLException e)
+        {
+          e.printStackTrace();
+        }finally {
+            if(connection!=null)
+            {
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+       // connection.commit();
 
     }
 

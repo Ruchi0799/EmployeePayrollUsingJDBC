@@ -57,4 +57,10 @@ public class JDBCDemo {
         EmployeePayrollDBService employeePayrollDBService=new EmployeePayrollDBService();
         employeePayrollDBService.addEmployeeToPayroll("Ruchi",'F',652000.00,"2021-08-02");
     }
+
+    @Test
+    public void abilityToAddEmployeeToPayrollUsingTransaction() throws SQLException {
+        EmployeePayrollDBService employeePayrollDBService=new EmployeePayrollDBService();
+        employeePayrollDBService.addEmployeeToPayroll("Prachi",'F',1000000.00,"2020-08-02");
+    }
 }
