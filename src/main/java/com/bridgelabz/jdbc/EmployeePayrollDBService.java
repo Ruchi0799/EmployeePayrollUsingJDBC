@@ -54,9 +54,7 @@ public class EmployeePayrollDBService {
         }
         return con;
     }
-
-
-
+    
     public int updateEmployeeData(String name, double salary) {
      return this.updateEmployeeDataUsingStatement(name,salary);
     }
