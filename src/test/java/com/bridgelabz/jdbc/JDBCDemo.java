@@ -63,4 +63,10 @@ public class JDBCDemo {
         EmployeePayrollDBService employeePayrollDBService=new EmployeePayrollDBService();
         employeePayrollDBService.addEmployeeToPayroll("Prachi",'F',1000000.00,"2020-08-02");
     }
+
+    @Test
+    public void abilityToDisplayEmployeeOfEr() {
+        EmployeePayrollDBService employeePayrollDBService=new EmployeePayrollDBService();
+        employeePayrollDBService.printEntriesER();
+    }
 }

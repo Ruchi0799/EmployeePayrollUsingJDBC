@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeePayrollDBService {
-    private String url = "jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
+    private String url = "jdbc:mysql://localhost:3306/payroll_system?useSSL=false";
+    private String url1 = "jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
     private String username = "root";
     private String password = "ruchi";
     Connection con;
@@ -34,6 +35,28 @@ public class EmployeePayrollDBService {
     }
 
     private Connection getConnection() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            //System.out.println(Class.forName("com.mysql.cj.jdbc.Driver"));
+
+        }catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+
+        try {
+            System.out.println("Connecting to database"+url1);
+            con= DriverManager.getConnection(url,username,password);
+            System.out.println("Connection is successful!!"+con);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return con;
+    }
+
+
+    private Connection getConnectionER() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             //System.out.println(Class.forName("com.mysql.cj.jdbc.Driver"));
@@ -216,6 +239,32 @@ public class EmployeePayrollDBService {
             }
 
             }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void printEntriesER(){
+        String sql="SELECT * FROM employee;";
+        try {
+            Connection connection=this.getConnectionER();
+            Statement statement=connection.createStatement();
+            ResultSet resultSet=statement.executeQuery(sql);
+            while (resultSet.next()){
+                System.out.println(
+                        resultSet.getString(1)+" "+
+                                resultSet.getString(2)+" "+
+                                resultSet.getString(3)+" "+
+                                resultSet.getString(4)+" "+
+                                resultSet.getString(5)+" "+
+                                resultSet.getString(6)+" "+
+                                resultSet.getString(7));
+            }
+
+        }
         catch (SQLException e)
         {
             e.printStackTrace();
