@@ -313,5 +313,22 @@ public class EmployeePayrollDBService {
     }
 
 
+    public int deleteEmployeePayrollER(String name) {
+        String sql = String.format("delete from employee_payroll where name='%s';",name);
+        try (Connection connection = this.getConnection()) {
+            Statement statement = connection.createStatement();
+            int result = statement.executeUpdate(sql);
+
+            printEntriesER();
+            return result;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return 0;
+
+    }
 }
 

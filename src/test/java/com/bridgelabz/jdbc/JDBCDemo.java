@@ -75,4 +75,10 @@ public class JDBCDemo {
         EmployeePayrollDBService employeePayrollDBService=new EmployeePayrollDBService();
         employeePayrollDBService.addEmployeeToPayrollER("Ravi",'M',2500000.00,2,3);
     }
+
+    @Test
+    public void abilityToDeleteEmployeeInPayrollER() throws SQLException {
+        EmployeePayrollDBService employeePayrollDBService=new EmployeePayrollDBService();
+        employeePayrollDBService.deleteEmployeePayrollER("Ravi");
+    }
 }
