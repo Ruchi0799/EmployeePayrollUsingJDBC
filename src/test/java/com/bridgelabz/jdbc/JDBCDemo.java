@@ -69,4 +69,10 @@ public class JDBCDemo {
         EmployeePayrollDBService employeePayrollDBService=new EmployeePayrollDBService();
         employeePayrollDBService.printEntriesER();
     }
+
+    @Test
+    public void abilityToAddEmployeeToPayrollER() throws SQLException {
+        EmployeePayrollDBService employeePayrollDBService=new EmployeePayrollDBService();
+        employeePayrollDBService.addEmployeeToPayrollER("Ravi",'M',2500000.00,2,3);
+    }
 }

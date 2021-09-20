@@ -201,6 +201,69 @@ public class EmployeePayrollDBService {
 
     }
 
+    public void addEmployeeToPayrollER(String name, char gender, double salary,int cmpid,int deptid) throws SQLException {
+        int employeeID = -1;
+        Connection connection = null;
+        connection = this.getConnection();
+        connection.setAutoCommit(false);
+        Statement statement = connection.createStatement();
+        try {
+            // System.out.println("inside try");
+            String sql = String.format("insert into employee_payroll(name,gender,salary,cmp_id,dept_id) values" +"('%s','%s',%2f,%d,%d)", name, gender, salary, cmpid,deptid);
+            int rowAffected = statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+            //  System.out.println(rowAffected);
+            if (rowAffected == 1) {
+
+                System.out.println(employeeID);
+                ResultSet resultSet = statement.getGeneratedKeys();
+                if (resultSet.next()) employeeID = resultSet.getInt(1);
+                System.out.println(employeeID);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            connection.rollback();
+        }
+        try {
+            //System.out.println("inside try");
+            //System.out.println(employeeID);
+            double deductions = salary * 0.2;
+            double taxablePay = salary - deductions;
+            double tax = taxablePay * 0.1;
+            double netPay = salary - tax;
+            // String sql = String.format("INSERT INTO payroll_details(employee_id,basic_pay,deductions,taxable_pay,tax,net_pay) values (LAST_INSERT_ID(),'%s','%s','%s','%s','%s')",salary,deductions, taxablePay, tax, netPay);
+            String sql = String.format("INSERT INTO payroll_details" +
+                    "(employee_id,basic_pay,deductions,taxable_pay,tax,net_pay) values"+"(%s,%s,%s,%s,%s,%s)",employeeID, salary,deductions, taxablePay, tax, netPay);
+            int rowAffected = statement.executeUpdate(sql);
+        }
+        catch (SQLException e){
+            System.out.println("inside catch");
+            e.printStackTrace();
+            connection.rollback();
+        }
+        try {
+            connection.commit();
+            printEntriesER();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }finally {
+            if(connection!=null)
+            {
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        // connection.commit();
+
+    }
+
+
+
     public void printEntries(){
         String sql="SELECT * FROM employee_payroll;";
         try {
